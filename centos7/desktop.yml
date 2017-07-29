@@ -19,6 +19,15 @@
   - name: Firewalldリロード
     shell: firewall-cmd --reload
 
+  - name: wineインストール
+    yum: name="wine" state=latest
+
+  - name: nux-desktopリポジトリ追加
+    yum: name="http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-1.el7.nux.noarch.rpm"
+
+  - name: cairo-dockインストール
+    yum: name="cairo-dock" state=latest
+
   handlers:
     - name: xrdp起動
       service: name=xrdp state=started
