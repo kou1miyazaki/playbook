@@ -1,0 +1,10 @@
+- hosts: all
+  remote_user: root
+  sudo: yes
+
+  vars:
+
+  tasks:
+  - name: Azure CLI Install
+    shell: curl -L https://aka.ms/InstallAzureCli | bash exec -l $SHELL
+

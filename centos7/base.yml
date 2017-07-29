@@ -3,8 +3,6 @@
   tasks:
   - name: Yumアップデート
     yum: name=* state=latest
-
-  - name: Yumインストール
     yum: name={{ item }} state=latest
     with_items:
       - vim
@@ -18,13 +16,5 @@
 
   - name: httpdインストール
     yum: name=httpd state=latest
-    notify:
-    - httpd起動
-    - httpd自動起動
-
-  handlers:
-    - name: httpd起動
-      service: name=httpd state=started
-   
-    - name: httpd自動起動
-      service: name=httpd enabled=yes
+    service: name=httpd state=started
+    service: name=httpd enabled=yes
