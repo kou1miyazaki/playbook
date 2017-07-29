@@ -1,0 +1,30 @@
+- hosts: all
+  remote_user: root
+  sudo: yes
+
+  vars:
+
+  tasks:
+  - name: Yumインストール
+    yum: name={{ item }} state=latest
+    with_items:
+      - bzip2
+
+  - name: リポジトリ追加
+    shell: wget -q -O - http://www.atomicorp.com/installers/atomic |sh
+
+  - name: openvasインストール
+    yum: name=openvas  state=latest
+
+  - name: openvasセットアップ
+    shell: openvas-setup
+
+  - name: SSL証明書作成
+    shell: openvas-mkcert-client -n om -i
+
+  - name: OpenVAS Manager Rebuild
+    shell: openvasmd --rebuild
+
+  - name: Firewalld設定
+    shell: firewall-cmd --zone=public --add-port=9392/tcp --permanent
+    shell: firewall-cmd --reload
