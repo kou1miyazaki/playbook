@@ -30,18 +30,12 @@
 
   - name: Hinemos Manager起動
     service: name=hinemos_manager state=started
-
-  - name: Hinemos Manager自動起動
     service: name=hinemos_manager enabled=yes
 
   - name: Hinemos Web起動
     service: name=hinemos_web state=started
-
-  - name: Hinemos Web自動起動
     service: name=hinemos_web enabled=yes
 
   - name: Firewalld設定
     shell: firewall-cmd --zone=public --add-service=http --permanent
-
-  - name: Firewalldリロード
     shell: firewall-cmd --reload

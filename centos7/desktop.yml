@@ -4,7 +4,7 @@
   - name: GNOME Desktopインストール
     yum: name="@GNOME Desktop" state=latest
 
-  - name: GNOME
+  - name: GNOME自動起動
     shell: systemctl set-default graphical.target
 
   - name: xrdpインストール
