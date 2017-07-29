@@ -1,0 +1,27 @@
+- hosts: all
+  remote_user: root
+  tasks:
+  - name: GNOME Desktopインストール
+    yum: name="@GNOME Desktop" state=latest
+
+  - name: GNOME
+    shell: systemctl set-default graphical.target
+
+  - name: xrdpインストール
+    yum: name="xrdp" state=latest
+    notify:
+    - xrdp起動
+    - xrdp自動起動
+
+  - name: Firewalld設定
+    shell: firewall-cmd --zone=public --add-port=3389/tcp --permanent
+
+  - name: Firewalldリロード
+    shell: firewall-cmd --reload
+
+  handlers:
+    - name: xrdp起動
+      service: name=xrdp state=started
+
+    - name: xrdp自動起動
+      service: name=xrdp enabled=yes
