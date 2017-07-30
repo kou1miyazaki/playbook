@@ -3,9 +3,6 @@
   sudo: yes
 
   vars:
-    jenkins_port: 3001
-    jenkins_url: http://pkg.jenkins-ci.org/redhat/jenkins.repo
-    jenkins_key: http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
 
   tasks:
   - name: 前処理
@@ -14,4 +11,4 @@
   - name: Yumインストール
     yum: name={{ item }} state=latest
     with_items:
-      - centos-release-scl-rh
+      - ruby

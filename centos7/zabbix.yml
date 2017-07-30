@@ -1,0 +1,40 @@
+- hosts: all
+  remote_user: root
+  sudo: yes
+
+  vars:
+    hinemos_hostname: mgrsrv
+    hinemos_manager_url: https://github.com/hinemos/hinemos/releases/download/v6.0.1/hinemos-6.0-manager-6.0.1-1.el7.x86_64.rpm
+    hinemos_web_url: https://github.com/hinemos/hinemos/releases/download/v6.0.1/hinemos-6.0-web-6.0.1-1.el7.x86_64.rpm
+
+  tasks:
+  - name: 前処理
+    include: tasks/base.yml
+
+  - name: Yumインストール
+    yum: name={{ item }} state=latest
+    with_items:
+      - java
+      - rsyslog
+      - vim-common
+      - unzip
+
+  - name: Hostname変更
+    shell: hostnamectl set-hostname {{ hinemos_hostname }}
+
+  - name: Hinemos Manager Install
+    yum: name="{{ hinemos_manager_url }}"
+
+  - name: Hinemos Web Install
+    yum: name="{{ hinemos_web_url }}"
+
+  - name: Hinemos Manager起動
+    service: name=hinemos_manager state=started
+    service: name=hinemos_manager enabled=yes
+
+  - name: Hinemos Web起動
+    service: name=hinemos_web state=started
+    service: name=hinemos_web enabled=yes
+
+  - name: Firewalld設定
+    firewalld: service=http permanent=true state=enabled immediate=true

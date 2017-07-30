@@ -1,0 +1,33 @@
+- hosts: all
+  remote_user: root
+  sudo: yes
+
+  vars:
+    download_url: https://downloads.typesafe.com/typesafe-activator/1.3.7/typesafe-activator-1.3.7.zip
+    download_name: typesafe-activator-1.3.7.zip
+
+  tasks:
+  - name: 前処理
+    include: tasks/base.yml
+
+  - name: Javaインストール
+    yum: name={{ item }} state=latest
+    with_items:
+      - java
+ 
+  - name: Play Framework Download
+    get_url: url={{ download_url }} dest=/work
+
+#  - name: Play Framework 解凍
+#    unarchive: src=/work/{{ download_name }} dest=/opt
+#    shell: mv /opt/activator-dist-1.3.7 /opt/activator
+
+  - name: Link作成
+    shell: ln -s /opt/activator/activator /usr/local/sbin/activator
+
+  - name: 環境変数
+    shell: echo 'export PATH="/usr/local/sbin/activator:$PATH"' >> /etc/profile.d/activator.sh
+    shell: source /etc/profile
+
+  - name: Firewalld 設定
+    firewalld: port=9000 permanent=true state=enabled immediate=true
