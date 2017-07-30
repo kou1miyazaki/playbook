@@ -37,5 +37,4 @@
     service: name=hinemos_web enabled=yes
 
   - name: Firewalld設定
-    shell: firewall-cmd --zone=public --add-service=http --permanent
-    shell: firewall-cmd --reload
+    firewalld: service=http permanent=true state=enabled immediate=true

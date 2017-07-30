@@ -16,8 +16,7 @@
     service: name=xrdp enabled=yes
 
   - name: Firewalld設定
-    shell: firewall-cmd --zone=public --add-port=3389/tcp --permanent
-    shell: firewall-cmd --reload
+    firewalld: port=3389 permanent=true state=enabled immediate=true
 
   - name: wineインストール
     yum: name="wine" state=latest

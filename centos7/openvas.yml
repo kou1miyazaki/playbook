@@ -29,5 +29,4 @@
     shell: openvasmd --rebuild
 
   - name: Firewalld設定
-    shell: firewall-cmd --zone=public --add-port=9392/tcp --permanent
-    shell: firewall-cmd --reload
+    firewalld: port=9392 permanent=true state=enabled immediate=true 
