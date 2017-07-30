@@ -5,3 +5,7 @@
     yum: name=httpd state=latest
     service: name=httpd state=started
     service: name=httpd enabled=yes
+
+  - name: Firewall 設定
+    firewalld: service=http permanent=true state=enabled immediate=true
+    firewalld: service=https permanent=true state=enabled immediate=true

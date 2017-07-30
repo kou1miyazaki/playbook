@@ -1,0 +1,40 @@
+- hosts: all
+  remote_user: root
+  sudo: yes
+
+  vars:
+    gitlab_port: 3001
+    gitlab_url: https://downloads-packages.s3.amazonaws.com/centos-7.1.1503/gitlab-ce-7.10.1~omnibus.2-1.x86_64.rpm
+  tasks:
+  - name: 前処理
+    include: tasks/base.yml
+
+  - name: Yumインストール
+    yum: name={{ item }} state=latest
+    with_items:
+      - openssh-server
+      - postfix
+
+  - name: postfix起動
+    service: name=postfix state=started
+    service: name=postfix enabled=yes
+
+  - name: Gitlabリポジトリ追加
+    shell: curl -s https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | sudo bash
+
+  - name: Gitlab Install
+    yum: name=gitlab-ce-9.1.4-ce.0.el7.x86_64
+
+  - name: Port 変更
+    replace: >-
+       dest=/etc/gitlab/gitlab.rb
+       regexp='//localhost'
+       replace='//192.168.11.15:{{ gitlab_port }}'
+       backup=yes
+
+  - name: Gitlab Configure
+    shell: gitlab-ctl reconfigure
+
+  - name: Firewalld 設定
+    firewalld: port={{ gitlab_port }} permanent=true state=enabled immediate=true
+

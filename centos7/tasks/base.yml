@@ -1,15 +1,26 @@
-  - name: Yumアップデート
     yum: name=* state=latest
     yum: name={{ item }} state=latest
     with_items:
       - vim
+      - ntp
       - wget
       - tree
       - net-tools
       - epel-release
 
   - name: SELINUX無効
-    shell: sed -i "s/\(^SELINUX=\).*/\1disabled/" /etc/selinux/config
+    replace: >-
+      dest=/etc/sysconfig/selinux
+      regexp='SELIUX=permissive'
+      replace='SELINUX=disabled'
+      backup=yes
+
+  - name: ntpd起動
+    service: name=ntpd state=started
+    service: name=ntpd enabled=yes
+
+  - name: Firewalld 設定 
+    firewalld: service=ntp permanent=true state=enabled immediate=true
 
   - name: 作業フォルダ作成
     file: path=/work state=directory

@@ -26,6 +26,5 @@
     service: name=jenkins state=started
     service: name=jenkins enabled=yes
 
-  - name: Firewalld設定
-    shell: firewall-cmd --zone=public --add-port=3001/tcp --permanent
-    shell: firewall-cmd --reload
+  - name: Firewalld 設定
+    firewalld: port=3001 permanent=true state=enabled immediate=true
