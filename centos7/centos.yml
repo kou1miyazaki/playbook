@@ -7,6 +7,3 @@
   tasks:
   - name: 前処理
     include: base.yml
-
-  - name: Ansibleインストール
-    yum: name=ansible  state=latest

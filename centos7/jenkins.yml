@@ -8,6 +8,9 @@
     jenkins_key: http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
 
   tasks:
+  - name: 前処理
+    include: base.yml
+
   - name: Yumインストール
     yum: name={{ item }} state=latest
     with_items:
