@@ -1,6 +1,3 @@
-- hosts: all
-  remote_user: root
-  tasks:
   - name: httpdインストール
     yum: name=httpd state=latest
     service: name=httpd state=started
