@@ -11,7 +11,7 @@
   - name: 前処理
     include: tasks/base.yml
 
-  - name: Yumインストール
+  - name: Java インストール
     yum: name={{ item }} state=latest
     with_items:
       - java
