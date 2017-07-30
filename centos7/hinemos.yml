@@ -8,6 +8,9 @@
     hinemos_web_url: https://github.com/hinemos/hinemos/releases/download/v6.0.1/hinemos-6.0-web-6.0.1-1.el7.x86_64.rpm
 
   tasks:
+  - name: 前処理
+    include: tasks/base.yml
+
   - name: Yumインストール
     yum: name={{ item }} state=latest
     with_items:

@@ -5,6 +5,9 @@
   vars:
 
   tasks:
+  - name: 前処理
+    include: tasks/base.yml
+
   - name: Azure CLI Install
     shell: curl -L https://aka.ms/InstallAzureCli | bash exec -l $SHELL
 

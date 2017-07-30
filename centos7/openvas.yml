@@ -6,7 +6,7 @@
 
   tasks:
   - name: 前処理
-    include: base.yml
+    include: tasks/base.yml
 
   - name: Yumインストール
     yum: name={{ item }} state=latest

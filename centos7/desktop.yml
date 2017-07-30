@@ -2,7 +2,7 @@
   remote_user: root
   tasks:
   - name: 前処理
-    include: base.yml
+    include: tasks/base.yml
 
   - name: GNOME Desktopインストール
     yum: name="@GNOME Desktop" state=latest
