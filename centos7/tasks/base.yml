@@ -10,3 +10,6 @@
 
   - name: SELINUX無効
     shell: sed -i "s/\(^SELINUX=\).*/\1disabled/" /etc/selinux/config
+
+  - name: 作業フォルダ作成
+    file: path=/work state=directory

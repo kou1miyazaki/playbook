@@ -22,9 +22,6 @@
   - name: Hostname変更
     shell: hostnamectl set-hostname {{ hinemos_hostname }}
 
-  - name: 作業フォルダ作成
-    file: path=/work state=directory
-
   - name: Hinemos Manager Install
     yum: name="{{ hinemos_manager_url }}"
 
