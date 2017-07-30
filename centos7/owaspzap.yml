@@ -3,28 +3,16 @@
   sudo: yes
 
   vars:
+    download_url: https://github.com/zaproxy/zaproxy/releases/download/2.6.0/ZAP_2_6_0_unix.sh
+    install_shell: /work/ZAP_2_6_0_unix.sh
 
   tasks:
-  - name: Yumインストール
-    yum: name={{ item }} state=latest
-    with_items:
-      - bzip2
+  - name: 前処理
+    include: tasks/base.yml
 
-  - name: リポジトリ追加
-    shell: wget -q -O - http://www.atomicorp.com/installers/atomic |sh
+  - name: OWASP ZAP Download
+    get_url: url={{ download_url }} dest=/work
+    file: dest=/work/ZAP_2_6_0_unix.sh state=touch mode="a+x"
 
-  - name: openvasインストール
-    yum: name=openvas  state=latest
-
-  - name: openvasセットアップ
-    shell: openvas-setup
-
-  - name: SSL証明書作成
-    shell: openvas-mkcert-client -n om -i
-
-  - name: OpenVAS Manager Rebuild
-    shell: openvasmd --rebuild
-
-  - name: Firewalld設定
-    shell: firewall-cmd --zone=public --add-port=9392/tcp --permanent
-    shell: firewall-cmd --reload
+  - name: OWASP ZAP Install
+    shell: sh /work/ZAP_2_6_0_unix.sh
