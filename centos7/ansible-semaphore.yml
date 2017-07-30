@@ -1,0 +1,12 @@
+- hosts: all
+  remote_user: root
+  sudo: yes
+
+  vars:
+
+  tasks:
+  - name: 前処理
+    include: tasks/base.yml
+
+  - name: Ansibleインストール
+    yum: name=ansible  state=latest
