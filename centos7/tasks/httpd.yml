@@ -1,5 +1,12 @@
-  - name: httpdインストール
+  - name: httpd インストール
     yum: name=httpd state=latest
+
+  - name: 不要な設定
+    shell: mv /etc/httpd/conf.d/userdir.conf /etc/httpd/conf.d/userdir.back 
+    shell: mv /etc/httpd/conf.d/welcome.conf /etc/httpd/conf.d/welcome.back 
+    shell: mv /etc/httpd/conf.d/autoindex.conf /etc/httpd/conf.d/autoindex.back
+ 
+  - name: httpd 起動
     service: name=httpd state=started
     service: name=httpd enabled=yes
 
