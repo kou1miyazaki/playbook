@@ -1,4 +1,4 @@
--hosts: all
+- hosts: all
   remote_user: root
   sudo: yes
 
@@ -6,4 +6,4 @@
 
   tasks:
   - name: 前処理
-    include: base.yml
+    include: tasks/base.yml

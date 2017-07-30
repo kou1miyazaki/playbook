@@ -1,7 +1,9 @@
+  - name: yum update & install
     yum: name=* state=latest
     yum: name={{ item }} state=latest
     with_items:
       - vim
+      - unzip
       - ntp
       - wget
       - tree
