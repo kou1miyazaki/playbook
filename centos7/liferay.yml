@@ -3,9 +3,6 @@
   sudo: yes
 
   vars:
-    jenkins_port: 3001
-    jenkins_url: http://pkg.jenkins-ci.org/redhat/jenkins.repo
-    jenkins_key: http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
 
   tasks:
   - name: 前処理
@@ -16,15 +13,5 @@
     with_items:
       - java
 
-  - name: リポジトリ追加
-    shell: wget -O /etc/yum.repos.d/jenkins.repo {{ jenkins_url }}
-    shell: rpm --import {{ jenkins_key }}
-
-  - name: jenkinsインストール
-    yum: name=jenkins  state=latest
-    shell: sed -i "s/\(^JENKINS_PORT=\).*/\1"{{ jenkins_port }}"/" /etc/sysconfig/jenkins
-    service: name=jenkins state=started
-    service: name=jenkins enabled=yes
-
   - name: Firewalld 設定
-    firewalld: port=3001 permanent=true state=enabled immediate=true
+    firewalld: port=8080 permanent=true state=enabled immediate=true
