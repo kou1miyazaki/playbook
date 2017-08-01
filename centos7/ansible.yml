@@ -10,3 +10,7 @@
 
   - name: Ansibleインストール
     yum: name=ansible  state=latest
+
+  - name: pywinrmインストール
+    shell: curl -sL https://bootstrap.pypa.io/get-pip.py | python
+    shell: pip install pywinrm
