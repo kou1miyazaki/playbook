@@ -1,3 +1,6 @@
+# Module: Windows Module
+# http://docs.ansible.com/ansible/latest/list_of_windows_modules.html
+#
 - hosts: windows
 
   vars:
@@ -7,5 +10,12 @@
       win_updates:
         category_names:
           - SecurityUpdates
-#         - CriticalUpdates
-#         - UpdateRollups
+          - CriticalUpdates
+#          - UpdateRollups
+        state: searched
+        log_path: c:\ansible_wu.txt
+
+#    - name: Windows Reboot
+#      win_reboot:
+#        shutdown_timeout_sec: 10
+#        reboot_timeout_sec: 10
