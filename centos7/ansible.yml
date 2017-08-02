@@ -11,6 +11,11 @@
   - name: Ansibleインストール
     yum: name=ansible  state=latest
 
-  - name: pywinrmインストール
+  - name: pipインストール
     shell: curl -sL https://bootstrap.pypa.io/get-pip.py | python
+
+  - name: pywinrmインストール
     shell: pip install pywinrm
+
+  - name: pysphereインストール
+    shell: pip install pysphere
