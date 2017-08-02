@@ -1,12 +1,20 @@
-- hosts: all
+- hosts: centos
   remote_user: root
   sudo: yes
 
   vars:
+    semaphore_url: https://github.com/ansible-semaphore/semaphore/releases/download/v2.0.4/semaphore_linux_amd64
 
   tasks:
   - name: 前処理
     include: tasks/base.yml
 
-  - name: Ansibleインストール
-    yum: name=ansible  state=latest
+  - name: semaphoreインストール
+    get_url: url= "{{ semaphore_url }}" dest= "/work"
+    shell: cp -fr /work/semaphore_linux_amd64 /usr/bin/semaphore
+    shell: chmod a+x /usr/bin/semaphore
+
+  - name: semaphoreセットアップ
+    shell: mkdir /opt/semaphore
+    shell: co /opt/semaphore
+    shell: semaphore -setup
