@@ -11,7 +11,11 @@
     shell: systemctl set-default graphical.target
 
   - name: xrdpインストール
-    yum: name="xrdp" state=latest
+    yum: name="{{ item }}" state=latest
+    with_items:
+      - xrdp
+      - rdesktop
+
     service: name=xrdp state=started
     service: name=xrdp enabled=yes
 
