@@ -1,0 +1,19 @@
+- hosts: centos
+  remote_user: root
+  sudo: yes
+
+  vars:
+
+  tasks:
+  - name: 前処理
+    include: tasks/base.yml
+
+  - name: Serverspecインストール
+    shell: gem install serverspec
+
+  - name: winrmインストール
+    shell: gem install winrm
+
+  - name: Serverspec初期化
+    shell: serverspec-init
+
