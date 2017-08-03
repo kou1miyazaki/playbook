@@ -13,8 +13,8 @@
   - name: xrdpインストール
     yum: name="{{ item }}" state=latest
     with_items:
-      - xrdp
       - rdesktop
+      - xrdp
 
     service: name=xrdp state=started
     service: name=xrdp enabled=yes
@@ -24,6 +24,9 @@
 
   - name: wineインストール
     yum: name="wine" state=latest
+
+  - name: kdepim Install
+    yum: name="kdepim" state=latest
 
   - name: nux-desktopリポジトリ追加
     yum: name="http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-1.el7.nux.noarch.rpm"
