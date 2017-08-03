@@ -1,0 +1,30 @@
+- hosts: centos
+  remote_user: root
+  sudo: yes
+
+  vars:
+    download_url: http://downloads.diffingo.com/fwbackups/fwbackups-1.43.6.tar.bz2
+
+  tasks:
+  - name: 前処理
+    include: tasks/base.yml
+
+  - name: yumインストール
+    yum: name={{ item }} state=latest
+    with_items:
+      - intltool
+      - pycrypto
+      - python-paramiko
+      - gcc
+
+  - name: download
+    get_url: url={{ download_url }} dest=/work
+
+  - name: install
+    shell: cd /work
+    shell: bzip2 -dc fwbackups-1.43.6.tar.bz2 | tar xvf -
+    shell: cd fwbackups-1.43.6
+    shell: ./configure
+    shell: make
+    shell: make install
+
