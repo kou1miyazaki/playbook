@@ -20,9 +20,11 @@
     shell: wget -O /etc/yum.repos.d/jenkins.repo {{ jenkins_url }}
     shell: rpm --import {{ jenkins_key }}
 
-  - name: jenkinsインストール
+  - name: jenkins インストール
     yum: name=jenkins  state=latest
     shell: sed -i "s/\(^JENKINS_PORT=\).*/\1"{{ jenkins_port }}"/" /etc/sysconfig/jenkins
+
+  - name: jenkins 起動
     service: name=jenkins state=started
     service: name=jenkins enabled=yes
 

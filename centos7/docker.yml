@@ -1,0 +1,28 @@
+- hosts: all
+  remote_user: root
+  sudo: yes
+
+  vars:
+
+  tasks:
+  - name: 前処理
+    include: tasks/base.yml
+
+  - name: docker インストール
+    yum: name={{ item }} state=latest
+    with_items:
+      - docker
+ 
+  - name: docker 起動
+    service: name=docker state=started
+    service: name=docker enabled=yes
+
+
+  - name: docker イメージ取得
+    shell: docker pull {{ item }}
+    with_items:
+      - centos6
+      - centos7
+      - ubuntu
+      - redhat
+      - oraclelinux
