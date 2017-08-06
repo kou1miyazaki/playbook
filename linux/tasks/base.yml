@@ -9,6 +9,7 @@
       - tree
       - net-tools
       - epel-release
+      - inotify-tools
 
   - name: SELINUX無効
     replace: >-

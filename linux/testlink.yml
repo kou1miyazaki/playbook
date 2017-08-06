@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: centos
   remote_user: root
   sudo: yes
 
@@ -8,9 +8,6 @@
   - name: 前処理
     include: tasks/base.yml
 
-  - name: httpd Install
-    include: tasks/httpd.yml
-
-  - name: php Install
-    include: tasks/php.yml
+  - name: LAMP Install
+    include: tasks/lamp.yml
 
