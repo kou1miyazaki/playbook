@@ -14,3 +14,10 @@
 
   - name: wordpress Install
     get_url: url={{ download_url }} dest=/work
+
+  - name: copy and unzip files
+    unarchive: src=/work/wordpress-4.8-ja.zip dest=/opt
+    shell: mv /opt/wordpress-4,8-ja /opt/wordpress
+
+  - name: change dir / files permission
+    file: path=/opt/wordpress owner=apache group=apache mode=0755 recurse=yes state=directory
