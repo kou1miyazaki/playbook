@@ -25,3 +25,4 @@
       - centos:7
       - ubuntu
       - oraclelinux
+      - opensuse

@@ -9,10 +9,10 @@
     include: tasks/base.yml
 
   - name: Serverspecインストール
-    shell: gem install serverspec
-
-  - name: winrmインストール
-    shell: gem install winrm
+    shell: gem install {{ item }}
+    with_items:
+      - serverspec
+      - winrm
 
   - name: Serverspec初期化
     shell: serverspec-init
