@@ -1,5 +1,8 @@
-  - name: yum update & install
+
+  - name: Yum Update
     yum: name=* state=latest
+
+  - name: Yum Install
     yum: name={{ item }} state=latest
     with_items:
       - vim
@@ -19,11 +22,14 @@
       backup=yes
 
   - name: ntpd起動
-    service: name=ntpd state=started
-    service: name=ntpd enabled=yes
+    service: name={{ item }} enabled=yes state=started
+    with_items:
+      - ntpd
 
   - name: Firewalld 設定 
-    firewalld: service=ntp permanent=true state=enabled immediate=true
+    firewalld: service={{ item }} permanent=true state=enabled immediate=true
+    with_items:
+      - ntp
 
   - name: 作業フォルダ作成
     file: path=/work state=directory

@@ -14,8 +14,11 @@
       - cockpit
 
   - name: cockpit 起動
-    service: name=cockpit state=started
-    service: name=cockpit enabled=yes
+    service: name={{ item }} enabled=yes state=started
+    with_items:
+      - cockpit
 
   - name: Firewalld 設定
-    firewalld: service=cockpit permanent=true state=enabled immediate=true
+    firewalld: service={{ item }} permanent=true state=enabled immediate=true
+    with_items:
+      - cockpit

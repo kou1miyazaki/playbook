@@ -22,19 +22,19 @@
   - name: Hostname変更
     shell: hostnamectl set-hostname {{ hinemos_hostname }}
 
-  - name: Hinemos Manager Install
-    yum: name="{{ hinemos_manager_url }}"
+  - name: Hinemos Manager/Web Install
+    yum: name={{ item }}
+    when_items:
+      - {{ hinemos_manager_url }}
+      - {{ hinemos_web_url }}
 
-  - name: Hinemos Web Install
-    yum: name="{{ hinemos_web_url }}"
-
-  - name: Hinemos Manager起動
-    service: name=hinemos_manager state=started
-    service: name=hinemos_manager enabled=yes
-
-  - name: Hinemos Web起動
-    service: name=hinemos_web state=started
-    service: name=hinemos_web enabled=yes
+  - name: Hinemos Manager/Web 起動
+    service: name={{ item }} enabled=yes state=started
+    with_items:
+      - hinemos_manager
+      - hinemos_web
 
   - name: Firewalld設定
-    firewalld: service=http permanent=true state=enabled immediate=true
+    firewalld: service={{ item }} permanent=true state=enabled immediate=true
+    when_items:
+      - http

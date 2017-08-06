@@ -8,8 +8,7 @@
       - mysql-server
 
   - name: MySQL 起動
-    service: name=mysqld state=started
-    service: name=mysqld enabled=yes
+    service: name=mysqld enabled=yes state=started
 
 #  - name: MySQL Init
 #    shell: mysql_secure_installation

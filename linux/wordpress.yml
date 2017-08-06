@@ -1,0 +1,16 @@
+- hosts: centos
+  remote_user: root
+  sudo: yes
+
+  vars:
+    download_url: https://ja.wordpress.org/wordpress-4.8-ja.zip
+
+  tasks:
+  - name: 前処理
+    include: tasks/base.yml
+
+  - name: LAMP Install
+    include: tasks/lamp.yml
+
+  - name: wordpress Install
+    get_url: url={{ download_url }} dest=/work

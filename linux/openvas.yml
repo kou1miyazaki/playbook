@@ -17,7 +17,9 @@
     shell: wget -q -O - http://www.atomicorp.com/installers/atomic |sh
 
   - name: openvasインストール
-    yum: name=openvas  state=latest
+    yum: name={{ item }}  state=latest
+    with_items:
+      - openvas
 
   - name: openvasセットアップ
     shell: openvas-setup
@@ -29,4 +31,7 @@
     shell: openvasmd --rebuild
 
   - name: Firewalld設定
-    firewalld: port=9392 permanent=true state=enabled immediate=true 
+    firewalld: port={{ item }} permanent=true state=enabled immediate=true
+    with_items:
+      - 9392
+

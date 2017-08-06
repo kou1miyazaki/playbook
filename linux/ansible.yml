@@ -9,13 +9,15 @@
     include: tasks/base.yml
 
   - name: Ansibleインストール
-    yum: name=ansible  state=latest
+    yum: name={{ item }}  state=latest
+    with_items:
+      - ansible
 
   - name: pipインストール
     shell: curl -sL https://bootstrap.pypa.io/get-pip.py | python
 
-  - name: pywinrmインストール
-    shell: pip install pywinrm
-
-  - name: pysphereインストール
-    shell: pip install pysphere
+  - name: pywinrm/pyphereインストール
+    shell: pip install {{ item }}
+    with_items:
+      - pywinrm
+      - pysphere
