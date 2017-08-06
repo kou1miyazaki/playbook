@@ -14,9 +14,9 @@
       - docker
  
   - name: docker 起動
-    service: name=docker state=started
-    service: name=docker enabled=yes
-
+    service: name={{ item }} enabled=yes state=started
+    with_items:
+      - docker
 
   - name: docker イメージ取得
     shell: docker pull {{ item }}

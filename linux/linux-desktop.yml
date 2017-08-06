@@ -10,26 +10,24 @@
   - name: GNOME自動起動
     shell: systemctl set-default graphical.target
 
-  - name: xrdpインストール
+  - name: xrdp インストール
     yum: name="{{ item }}" state=latest
     with_items:
       - rdesktop
       - xrdp
 
-    service: name=xrdp state=started
-    service: name=xrdp enabled=yes
+  - name: xrdp 起動
+    service: name=xrdp enabled=yes state=started
 
   - name: Firewalld設定
     firewalld: port=3389 permanent=true state=enabled immediate=true
 
-  - name: wineインストール
-    yum: name="wine" state=latest
-
-  - name: kdepim Install
-    yum: name="kdepim" state=latest
-
   - name: nux-desktopリポジトリ追加
     yum: name="http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-1.el7.nux.noarch.rpm"
 
-  - name: cairo-dockインストール
-    yum: name="cairo-dock" state=latest
+  - name: etc. インストール
+    yum: name="{{ item }}" state=latest
+    with_items:
+      - wine
+      - kdepim
+      - cairo-dock
