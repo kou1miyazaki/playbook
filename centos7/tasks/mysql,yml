@@ -1,0 +1,8 @@
+
+  - name: PostgreSQL Install
+    yum: name={{ item }} state=latest
+    with_items:
+      - postgresql-server
+
+  - name: PostgreSQL Init
+    shell: postgresql-setup initdb

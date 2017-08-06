@@ -1,0 +1,9 @@
+
+  - name: MariaDB Install
+    yum: name={{ item }} state=latest
+    with_items:
+      - mariadb
+      - mariadb-server
+
+  - name: PostgreSQL Init
+    shell: postgresql-setup initdb
