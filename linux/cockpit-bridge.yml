@@ -11,7 +11,7 @@
   - name: cockpit インストール
     yum: name={{ item }} state=latest
     with_items:
-      - cockpit
+      - cockpit-bridge
 
   - name: cockpit 起動
     service: name={{ item }} enabled=yes state=started
