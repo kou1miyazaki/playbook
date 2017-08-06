@@ -1,0 +1,21 @@
+- hosts: centos
+  remote_user: root
+  sudo: yes
+
+  vars:
+
+  tasks:
+  - name: 前処理
+    include: tasks/base.yml
+
+  - name: cockpit インストール
+    yum: name={{ item }} state=latest
+    with_items:
+      - cockpit
+
+  - name: cockpit 起動
+    service: name=cockpit state=started
+    service: name=cockpit enabled=yes
+
+  - name: Firewalld 設定
+    firewalld: service=cockpit permanent=true state=enabled immediate=true
