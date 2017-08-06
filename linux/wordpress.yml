@@ -3,7 +3,10 @@
   sudo: yes
 
   vars:
+    install_name: Wordpress
+    alias_name: wordpress
     download_url: https://ja.wordpress.org/wordpress-4.8-ja.zip
+    download_file: wordpress-4.8-ja.zip
 
   tasks:
   - name: 前処理
@@ -12,12 +15,32 @@
   - name: LAMP Install
     include: tasks/lamp.yml
 
-  - name: wordpress Install
+  - name: Prodict Install
     get_url: url={{ download_url }} dest=/work
 
-  - name: copy and unzip files
-    unarchive: src=/work/wordpress-4.8-ja.zip dest=/opt
-    shell: mv /opt/wordpress-4,8-ja /opt/wordpress
+  - name: Product 解凍
+    unarchive: src=/work/{{ download_file }} dest=/work
 
-  - name: change dir / files permission
-    file: path=/opt/wordpress owner=apache group=apache mode=0755 recurse=yes state=directory
+  - name: Product コピー
+    copy: >-
+      src=/work/wordpress
+      dest=/opt/{{ alias_name }}
+
+  - name: Product パーミッション
+    file: path=/opt/{{ alias_name }} owner=apache group=apache recurse=yes state=directory
+
+  - name: Product Alias Copy
+    template: src=/opt/playbook/alias.conf dest=/etc/httpd/conf.d/{{ alias_name }}.conf
+
+  - name: Product Alias Replace
+    replace: >-
+      dest=/etc/httpd/conf.d/{{ alias_name }}.conf
+      regexp='change'
+      replace='{{ alias_name }}'
+
+  - name: httpd 再起動
+    service: name={{ item }} enabled=yes state=restarted
+    with_items:
+      - httpd
+
+
