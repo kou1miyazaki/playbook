@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: centos
   remote_user: root
   sudo: yes
 
@@ -16,8 +16,7 @@
       - postfix
 
   - name: postfix起動
-    service: name=postfix state=started
-    service: name=postfix enabled=yes
+    service: name=postfix enabled=yes astate=started
 
   - name: Gitlabリポジトリ追加
     shell: curl -s https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | sudo bash

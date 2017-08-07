@@ -13,6 +13,7 @@
     with_items:
       - cockpit
       - cockpit-dashboard
+      - cockpit-bridge
       - cockpit-docker
 
   - name: cockpit 起動
