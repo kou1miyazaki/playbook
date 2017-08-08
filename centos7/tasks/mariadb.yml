@@ -1,6 +1,0 @@
-
-  - name: PostgreSQL Install
-    yum: name={{ item }} state=latest
-    with_items:
-      - mariadb
-      - mariadb-server
