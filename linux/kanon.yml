@@ -1,0 +1,24 @@
+- hosts: centos
+  remote_user: root
+  sudo: yes
+
+  vars:
+
+  tasks:
+  - name: 前処理
+    include: tasks/base.yml
+
+  - name: httpdインストール
+    include: tasks/httpd.yml
+
+  - name: Yumインストール
+    yum: name={{ item }} state=latest
+    with_items:
+      - ruby
+      - openssl-devel
+      - readline-devel
+      - zlib-devel
+      - curl-devel
+      - libyaml-devel
+      - libffi-devel
+
