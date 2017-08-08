@@ -1,0 +1,7 @@
+
+  - name: Tomcat Install
+    yum: name={{ item }} state=latest
+    with_items:
+      - java
+      - tomcat
+
