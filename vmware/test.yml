@@ -1,0 +1,49 @@
+- hosts: 127.0.0.1
+  connection: local
+  user: root
+  sudo: false
+  gather_facts: false
+  serial: 1
+  vars:
+    esx_hostname: 172.16.12.136
+    esx_ipaddr: 172.16.12.133
+    esx_user: administrator@aicloud.local
+    esx_password: p@ssw0rD
+    guest_vm_name: P90001
+    datastore_name: datastore1\ \(1\)
+    iso_path: datastore1/media/CentOS-7-x86_64-Minimal-1611.iso
+  tasks:
+    - name: Deploy guest from template
+      vsphere_guest:
+        vcenter_hostname: "{{ esx_ipaddr }}"
+        username: "{{ esx_user }}"
+        password: "{{ esx_password }}"
+        guest: "{{ guest_vm_name }}"
+        state: powered_on
+        vm_hw_version: vmx-08
+        vm_extra_config:
+          vcpu.hotadd: yes
+          mem.hotadd:  yes
+          notes: This is a test VM
+        vm_disk:
+          disk1:
+            size_gb: 10
+            type: thin
+            datastore: "{{ datastore_name }}"
+        vm_nic:
+          nic1:
+            type: vmxnet3
+            network: VM Network
+            network_type: standard
+        vm_hardware:
+          memory_mb: 1024
+          num_cpus: 2
+          osid: centos64Guest
+          scsi: paravirtual
+          vm_cdrom:
+            type: "iso"
+            iso_path: "{{ iso_path }}"
+        esxi:
+          datacenter: Datacenter
+          hostname: "{{ esx_hostname  }}"
+
