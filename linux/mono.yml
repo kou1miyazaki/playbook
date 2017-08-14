@@ -1,31 +1,21 @@
-- hosts: all
+- hosts: centos
   remote_user: root
   sudo: yes
 
   vars:
-    jenkins_port: 3001
-    jenkins_url: http://pkg.jenkins-ci.org/redhat/jenkins.repo
-    jenkins_key: http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
 
   tasks:
   - name: 前処理
     include: tasks/base.yml
 
-  - name: Java インストール
+  - name: key Import
+    shell: rpm --import "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF"
+
+  - name: monoリポジトリ追加
+    shell: yum-config-manager --add-repo http://download.mono-project.com/repo/centos/
+
+  - name: mono インストール
     yum: name={{ item }} state=latest
     with_items:
-      - java
+      - mono-complete
 
-  - name: リポジトリ追加
-    shell: wget -O /etc/yum.repos.d/jenkins.repo {{ jenkins_url }}
-    shell: rpm --import {{ jenkins_key }}
-
-  - name: jenkins インストール
-    yum: name=jenkins  state=latest
-    shell: sed -i "s/\(^JENKINS_PORT=\).*/\1"{{ jenkins_port }}"/" /etc/sysconfig/jenkins
-
-  - name: jenkins 起動
-    service: name=jenkins enabled=yes state=started
-
-  - name: Firewalld 設定
-    firewalld: port=3001 permanent=true state=enabled immediate=true
