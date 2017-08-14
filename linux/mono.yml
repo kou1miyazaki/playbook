@@ -22,5 +22,6 @@
   - name: mono インストール
     yum: name={{ item }} state=latest
     with_items:
+      - xsp
       - mono-complete
 
