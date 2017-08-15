@@ -1,0 +1,27 @@
+- hosts: all
+  remote_user: root
+  sudo: yes
+
+  vars:
+
+  tasks:
+  - name: 前処理
+    include: tasks/base.yml
+
+  - name: lib インストール
+    yum: name={{ item }} state=latest
+    with_items:
+      - libunwind
+      - libicu
+
+  - name: dotnet Download
+    shell: cd /work
+    shell: curl -sSL -o dotnet.tar.gz https://aka.ms/dotnet-sdk-2.0.0-linux-x64
+
+  - name: dotnet インストール
+    shell: mkdir -p var/lib/dotnet && tar zxf dotnet.tar.gz -C /var/lib/dotnet
+    shell: chmod a+x /var/lib/dotnet/dotnet
+    shell: ln -s /var/lib/dotnet/dotnet /sbin/dotnet
+
+  - neme: dotnet new
+    shell: dotnet new 
