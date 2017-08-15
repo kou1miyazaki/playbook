@@ -23,5 +23,5 @@
     shell: chmod a+x /var/lib/dotnet/dotnet
     shell: ln -s /var/lib/dotnet/dotnet /sbin/dotnet
 
-  - neme: dotnet new
+  - name: dotnet new
     shell: dotnet new 
