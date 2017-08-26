@@ -3,10 +3,10 @@
   sudo: yes
 
   vars:
-    install_name: Wordpress
-    alias_name: wordpress
-    download_url: https://ja.wordpress.org/wordpress-4.8-ja.zip
-    download_file: wordpress-4.8-ja.zip
+    install_name: owncloud
+    alias_name: owncloud
+    download_url: https://download.owncloud.org/community/owncloud-10.0.2.zip
+    download_file: owncloud-10.0.2.zip
 
   tasks:
   - name: 前処理
@@ -23,7 +23,7 @@
 
   - name: Product コピー
     copy: >-
-      src=/work/wordpress
+      src=/work/owncloud
       dest=/opt/{{ alias_name }}
 
   - name: Product パーミッション

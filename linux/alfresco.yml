@@ -1,0 +1,14 @@
+- hosts: centos
+  remote_user: root
+  sudo: yes
+
+  vars:
+    download_url: http://eu.dl.alfresco.com.s3.amazonaws.com/release/community/201707-build-00028/alfresco-community-installer-201707-linux-x64.bin
+
+  tasks:
+  - name: 前処理
+    include: tasks/base.yml
+
+  - name: Prodict Install
+    get_url: url={{ download_url }} dest=/work
+

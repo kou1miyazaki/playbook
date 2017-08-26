@@ -3,7 +3,7 @@
     include: tasks/httpd.yml
 
   - name: php include
-    include: tasks/php.yml
+    include: tasks/php56.yml
 
   - name: mysql include
     include: tasks/mysql.yml
