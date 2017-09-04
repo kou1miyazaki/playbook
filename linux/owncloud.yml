@@ -3,40 +3,24 @@
   sudo: yes
 
   vars:
-    install_name: owncloud
-    alias_name: owncloud
-    download_url: https://download.owncloud.org/community/owncloud-10.0.2.zip
-    download_file: owncloud-10.0.2.zip
 
   tasks:
   - name: 前処理
     include: tasks/base.yml
 
-  - name: LAMP Install
-    include: tasks/lamp.yml
+  - name: owncloud/mariadb インストール
+    yum: name={{ item }} state=latest
+    with_items:
+      - owncloud
+      - mariadb-server
 
-  - name: Prodict Install
-    get_url: url={{ download_url }} dest=/work
+  - name: replace /etc/httpd/conf.d/owncloud.conf
+    replace: dest=/etc/httpd/conf.d/owncloud.conf regexp='^local$' replace='any' backup=yes
 
-  - name: Product 解凍
-    unarchive: src=/work/{{ download_file }} dest=/work
-
-  - name: Product コピー
-    copy: >-
-      src=/work/owncloud
-      dest=/opt/{{ alias_name }}
-
-  - name: Product パーミッション
-    file: path=/opt/{{ alias_name }} owner=apache group=apache recurse=yes state=directory
-
-  - name: Product Alias Copy
-    template: src=/opt/playbook/alias.conf dest=/etc/httpd/conf.d/{{ alias_name }}.conf
-
-  - name: Product Alias Replace
-    replace: >-
-      dest=/etc/httpd/conf.d/{{ alias_name }}.conf
-      regexp='change'
-      replace='{{ alias_name }}'
+  - name: mariadb 起動
+    service: name={{ item }} enabled=yes state=started
+    with_items:
+      - mariadb
 
   - name: httpd 再起動
     service: name={{ item }} enabled=yes state=restarted

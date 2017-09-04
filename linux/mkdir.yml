@@ -1,0 +1,14 @@
+- hosts: centos
+  remote_user: root 
+  sudo: yes
+
+  vars:
+
+  tasks:  
+  - name: create springboot root directory
+    file: path=/opt/ansible
+          state=directory
+          owner=root
+          group=root
+          mode=0755
+
