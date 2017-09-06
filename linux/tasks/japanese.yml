@@ -1,0 +1,12 @@
+
+  - name: 日本語インストール
+    yum: name={{ item }} state=latest
+    with_items:
+      - ibus-kkc
+      - vlgothic-*
+
+  - name: 文字コード設定
+    shell: localectl set-locale LANG=ja_JP.UTF-8
+
+  - name: 文字コードロード 
+    shell: source /etc/locale.conf

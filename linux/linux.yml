@@ -7,3 +7,6 @@
   tasks:
   - name: 前処理
     include: tasks/base.yml
+
+  - name: 日本語対応
+    include: tasks/japanese.yml
