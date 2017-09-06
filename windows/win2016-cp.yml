@@ -1,0 +1,34 @@
+# Module: Windows Module
+# http://docs.ansible.com/ansible/latest/list_of_windows_modules.html
+#
+- hosts: windows
+
+  vars:
+
+  tasks:
+    - name: Updateから更新をインストール
+      win_updates:
+        category_names:
+          - SecurityUpdates
+          - CriticalUpdates
+          - UpdateRollups
+        register: win_updates_result
+#        state: searched
+#        log_path: c:\ansible_wu.txt
+
+    - name: アップデート適用後、必要に応じて再起動実施
+      win_reboot:
+        when: win_updates_result.reboot_required
+#        shutdown_timeout_sec: 10
+#        reboot_timeout_sec: 10
+
+#    - name: Firewall Rule
+#      action: win_firewall_rule
+#      args:
+#        name: https
+#        enable: yes
+#        state: present
+#        localport: 443
+#        action: allow
+#       direction: In
+#        protocol: TCP
