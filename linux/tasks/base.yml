@@ -13,6 +13,10 @@
       - net-tools
       - epel-release
       - inotify-tools
+      - ipa-gothic-fonts
+      - ipa-mincho-fonts
+      - ipa-pgothic-fonts
+      - ipa-pmincho-fonts
 
   - name: SELINUX無効
     replace: >-
