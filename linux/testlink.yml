@@ -32,6 +32,10 @@
       regexp='change'
       replace='{{ alias_name }}'
 
+#  - name: グラフ文字化け対応
+# //この行を追加
+# $tlCfg->charts_font_path = "/usr/share/fonts/truetype/unifont/unifont.ttf";
+
   - name: httpd 再起動
     service: name={{ item }} enabled=yes state=restarted
     with_items:
