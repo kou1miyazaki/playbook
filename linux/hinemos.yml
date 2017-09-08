@@ -18,6 +18,8 @@
       - rsyslog
       - vim-common
       - unzip
+      - net-snmp
+      - net-snmp-utils
 
   - name: Hostname変更
     shell: hostnamectl set-hostname {{ hinemos_hostname }}
@@ -33,6 +35,7 @@
     with_items:
       - hinemos_manager
       - hinemos_web
+      - snmpd
 
   - name: Firewalld設定
     firewalld: service={{ item }} permanent=true state=enabled immediate=true
