@@ -5,6 +5,7 @@
   vars:
     gitlab_port: 3001
     gitlab_url: https://downloads-packages.s3.amazonaws.com/centos-7.1.1503/gitlab-ce-7.10.1~omnibus.2-1.x86_64.rpm
+
   tasks:
   - name: 前処理
     include: tasks/base.yml
@@ -16,7 +17,7 @@
       - postfix
 
   - name: postfix起動
-    service: name=postfix enabled=yes astate=started
+    service: name=postfix enabled=yes state=started
 
   - name: Gitlabリポジトリ追加
     shell: curl -s https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | sudo bash
@@ -28,7 +29,7 @@
     replace: >-
        dest=/etc/gitlab/gitlab.rb
        regexp='//localhost'
-       replace='//192.168.11.15:{{ gitlab_port }}'
+       replace='//192.168.99.101:{{ gitlab_port }}'
        backup=yes
 
   - name: Gitlab Configure
