@@ -12,7 +12,7 @@
       - tree
       - net-tools
       - epel-release
-      - inotify-tools
+#      - inotify-tools
       - ipa-gothic-fonts
       - ipa-mincho-fonts
       - ipa-pgothic-fonts
