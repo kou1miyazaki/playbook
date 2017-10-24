@@ -3,41 +3,67 @@
   sudo: yes
 
   vars:
-    hinemos_hostname: mgrsrv
-    hinemos_manager_url: https://github.com/hinemos/hinemos/releases/download/v6.0.1/hinemos-6.0-manager-6.0.1-1.el7.x86_64.rpm
-    hinemos_web_url: https://github.com/hinemos/hinemos/releases/download/v6.0.1/hinemos-6.0-web-6.0.1-1.el7.x86_64.rpm
+  # hinemos 6.0
+  - java_yum_name: "java-1.8.0-openjdk-devel"
+  - hinemos_manager_rpm_url: "https://github.com/hinemos/hinemos/releases/download/v6.0.1/hinemos-6.0-manager-6.0.1-1.el7.x86_64.rpm"
+  - hinemos_web_client_rpm_url: "https://github.com/hinemos/hinemos/releases/download/v6.0.1/hinemos-6.0-web-6.0.1-1.el7.x86_64.rpm"
 
   tasks:
-  - name: 前処理
-    include: tasks/base.yml
+  - name: Open JDKをインストール
+    yum:
+      name: "{{ java_yum_name }}"
+      state: present
 
-  - name: Yumインストール
-    yum: name={{ item }} state=latest
+  - name: vim-commonをインストール
+    yum:
+      name: vim-common
+      state: present
+
+  - name: unzipをインストール
+    yum:
+      name: unzip
+      state: present
+
+  - name: SELinuxを無効化する
+    selinux:
+      state: disabled
+
+  - name: Hinemos Managerをインストール
+    yum:
+      name: "{{ hinemos_manager_rpm_url }}"
+      state: present
+
+  - name: Hinemos Web Clientをインストール
+    yum:
+      name: "{{ hinemos_web_client_rpm_url }}"
+      state: present
+
+  - name: FirewallでHinemosが使用するポートを空ける
+    firewalld:
+      port: "{{ item }}"
+      permanent: yes
+      immediate: yes
+      state: enabled
     with_items:
-      - java
-      - rsyslog
-      - vim-common
-      - unzip
-      - net-snmp
-      - net-snmp-utils
+      - 8080/tcp
+      - 8443/tcp
+      - 8081/tcp
+      - 8444/tcp
+      - 514/tcp
+      - 514/udp
+      - 162/udp
+      - 8082/tcp
+      - 80/tcp
+      - 443/tcp
 
-  - name: Hostname変更
-    shell: hostnamectl set-hostname {{ hinemos_hostname }}
+  - name: Hinemos Managerを起動
+    service:
+      name: hinemos_manager
+      state: started
+      enabled: yes
 
-  - name: Hinemos Manager/Web Install
-    yum: name={{ item }}
-    when_items:
-      - {{ hinemos_manager_url }}
-      - {{ hinemos_web_url }}
-
-  - name: Hinemos Manager/Web 起動
-    service: name={{ item }} enabled=yes state=started
-    with_items:
-      - hinemos_manager
-      - hinemos_web
-      - snmpd
-
-  - name: Firewalld設定
-    firewalld: service={{ item }} permanent=true state=enabled immediate=true
-    when_items:
-      - http
+  - name: Hinemos Web Clientを起動
+    service:
+      name: hinemos_web
+      state: started
+      enabled: yes
